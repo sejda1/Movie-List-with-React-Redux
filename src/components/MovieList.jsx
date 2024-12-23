@@ -1,29 +1,34 @@
-import React from 'react';
+import React from "react";
 
-import MovieListItem from './MovieListItem';
-import MovieFooter from './MovieFooter';
-import { useSelector } from 'react-redux';
+import MovieListItem from "./MovieListItem";
+import MovieFooter from "./MovieFooter";
+import { useSelector } from "react-redux";
 
 const MovieList = (props) => {
-  const movies = useSelector((store) => store.movies.movies);
-
+  const movies = useSelector((state) =>
+    state.movie.filteredMovies && state.movie.filteredMovies.length > 0
+      ? state.movie.filteredMovies
+      : state.movie.movies || []
+  );
   return (
     <div className="flex-1">
-      <div className="overflow-hidden bg-white rounded-md shadow mb-4 sm:min-h-[400px]">
-        <table className="table-auto border-collapse text-left w-full">
-          <thead>
-            <tr className="border-zinc-200 border-b">
-              <th className="pl-4">İsim</th>
-              <th>Yönetmen</th>
-              <th>Tür</th>
-              <th>Metascore</th>
+      <div className="relative overflow-x-auto shadow-md mb-4 sm:min-h-[400px] ">
+        <table className="w-full text-sm text-left text-light-gray ">
+          <thead className="text-xs text-gold uppercase bg-dark-blue dark:bg-night-sky">
+            <tr className="bg-dark-blue border-b dark:bg-night-sky dark:border-gold hover:bg-blue-900 dark:hover:bg-night-hover">
+              <th className="px-6 py-4 font-medium text-gold whitespace-nowrap dark:text-gold">
+                İsim
+              </th>
+              <th className="text-gold">Yönetmen</th>
+              <th className="text-gold">Tür</th>
+              <th className="text-gold">Metascore</th>
               <th></th>
             </tr>
           </thead>
 
-          <tbody className="text-sm">
-            {movies.map((movie) => (
-              <MovieListItem key={movie.id} movie={movie} />
+          <tbody className="text-xs md:text-sm">
+            {movies.map((movie, index) => (
+              <MovieListItem key={index} movie={movie} />
             ))}
           </tbody>
         </table>

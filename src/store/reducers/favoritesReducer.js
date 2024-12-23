@@ -1,34 +1,42 @@
 import {
   TOGGLE_FAVORITES,
-  ADD_FAVORITE,
-  REMOVE_FAVORITE,
-} from '../actions/favoritesActions.js';
+  ADD_FAVORITES,
+  REMOVE_FAVORITES,
+} from "../actions/movieActions.js";
 
 const initialState = {
   favorites: [],
   displayFavorites: true,
 };
 
-export default function favoritesReducer(state = initialState, action) {
+const favoriteReducer = (state = initialState, action) => {
   switch (action.type) {
+    case ADD_FAVORITES:
+      if (state.favorites.find((fav) => fav.id === action.payload.id)) {
+        return state;
+      }
+      return {
+        ...state,
+        favorites: [...state.favorites, action.payload],
+      };
 
     case TOGGLE_FAVORITES:
-      return { ...state, displayFavorites: !state.displayFavorites };    
+      return {
+        ...state,
+        displayFavorites: !state.displayFavorites,
+      };
 
-    case ADD_FAVORITE:
-  const favExists = state.favorites.find(item => item.id === action.payload.id);
-  if (favExists) {
-    return state;
-  }
-  return { ...state, favorites: [...state.favorites, action.payload] };
-
-  case REMOVE_FAVORITE:
-  return {
-    ...state,
-    favorites: state.favorites.filter(item => item.id !== action.payload),
-  };
+    case REMOVE_FAVORITES:
+      return {
+        ...state,
+        favorites: state.favorites.filter(
+          (favori) => favori.id !== action.payload
+        ),
+      };
 
     default:
       return state;
   }
-}
+};
+
+export default favoriteReducer;

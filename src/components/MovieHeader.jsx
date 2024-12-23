@@ -1,35 +1,55 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { toggleFavorites } from '../store/actions/favoritesActions';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { searchMovie, toggleFavorites } from "../store/actions/movieActions";
 
 
 const MovieHeader = (props) => {
-  const appTitle = useSelector((store) => store.movies.appTitle);
+  const appTitle = useSelector((state) => state.movie.appTitle);
   const displayFavorites = useSelector(
-    (store) => store.favorites.displayFavorites
+    (state) => state.favorite.displayFavorites
   );
 
   const dispatch = useDispatch();
 
-  const toggleFavs = () => {
+  const handleToggleFavorites = () => {
     dispatch(toggleFavorites());
   };
-  
+
+  const handleChange = (e) => {
+    dispatch(searchMovie(e.target.value));
+  };
 
   return (
-    <div className="flex justify-between items-center shadow rounded-md bg-white p-2 pl-3 my-3">
-      <h2 className="text-zinc-600">{appTitle}</h2>
-      <div className="flex items-center gap-2" onClick={toggleFavs}>
-        <div className="myButton bg-blue-600 hover:bg-blue-500">
-          <span>Favorileri {displayFavorites ? 'gizle' : 'göster'}</span>
+    <div className="flex flex-col justify-between items-center shadow rounded-md bg-dark-blue p-2 pl-3 my-2 dark:bg-night-sky">
+      <h2 className="text-gold">{appTitle}</h2>
+      <div className="flex flex-col md:flex-row gap-2">
+        {location.pathname === "/movies" ? (
+          <input
+            type="text"
+            onChange={handleChange}
+            className="border w-44 bg-night-sky text-light-gray placeholder-light-gray focus:outline-none"
+            placeholder="Film Ara"
+          />
+        ) : ( ''
+
+        )}
+
+        <div
+          onClick={handleToggleFavorites}
+          className="myButton bg-gold hover:bg-gold-dark text-dark-blue cursor-pointer"
+        >
+          <span>Favorileri {displayFavorites ? "gizle" : "göster"}</span>
         </div>
-        <Link to="/movies" className="myButton bg-blue-600 hover:bg-blue-500">
+        <Link
+          to="/movies"
+          className="myButton bg-gold hover:bg-gold-dark text-dark-blue"
+        >
           Tüm filmler
         </Link>
         <Link
           to="/movies/add"
-          className="myButton bg-green-700 hover:bg-green-600"
+          className="myButton bg-gold hover:bg-gold-500 text-light-gray"
         >
           <i className="material-icons text-sm">&#xE147;</i>
           <span>Yeni film ekle</span>

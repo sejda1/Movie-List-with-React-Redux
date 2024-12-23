@@ -1,115 +1,121 @@
-import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import {useDispatch} from 'react-redux';
-import { addMovie } from '../store/actions/movieActions';
+import React, { useState } from "react";
+import { useDispatch} from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { addMovie } from "../store/actions/movieActions";
 
 const AddMovieForm = (props) => {
   const { push } = useHistory();
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
   const [movie, setMovie] = useState({
     id: Math.floor(Math.random() * 10000 + 100),
-    title: '',
-    director: '',
-    genre: '',
+    title: "",
+    director: "",
+    genre: "",
     metascore: 0,
-    description: '',
+    description: "",
   });
 
   const handleChange = (e) => {
-    const value = e.target.name === 'metascore' ? Number(e.target.value) : e.target.value;
     setMovie({
       ...movie,
-      [e.target.name]: value,
+      [e.target.name]: e.target.value,
     });
   };
-  
-  
-const handleSubmit = (e) => {
-  e.preventDefault();
-  dispatch(addMovie(movie));
-  push('/movies');
-};
-
+  const handleAddMovie = (movie) => {
+    console.log(movie);
+    dispatch(addMovie(movie));
+    push("/movies/");
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleAddMovie(movie);
+  };
 
   const { title, director, genre, metascore, description } = movie;
   return (
-    <div className="bg-white rounded-md shadow flex-1">
+    <div className="bg-dark-blue rounded-md shadow flex-1 dark:bg-night-sky dark:text-light-gray">
       <form onSubmit={handleSubmit}>
-        <div className="p-5 pb-3 border-b border-zinc-200">
-          <h4 className="text-xl font-bold">Add Movie</h4>
+        <div className="p-5 pb-3 border-b border-gold">
+          <h4 className="text-xl font-bold text-gold">
+            Yeni Film Ekle <strong>{title}</strong>
+          </h4>
         </div>
-
         <div className="px-5 py-3">
           <div className="py-2">
-            <label htmlFor="title" className="block pb-1 text-lg">
+            <label htmlFor="title" className="block pb-1 text-lg text-light-gray">
               Title
             </label>
             <input
+              className="bg-night-sky text-light-gray border-gold focus:ring-gold"
               value={title}
               onChange={handleChange}
               name="title"
-              type="text"
               id="title"
+              type="text"
             />
           </div>
           <div className="py-2">
-            <label htmlFor="director" className="block pb-1 text-lg">
+            <label htmlFor="director" className="block pb-1 text-lg text-light-gray">
               Director
             </label>
             <input
+              className="bg-night-sky text-light-gray border-gold focus:ring-gold"
               value={director}
               onChange={handleChange}
               name="director"
-              type="text"
               id="director"
+              type="text"
             />
           </div>
           <div className="py-2">
-            <label htmlFor="genre" className="block pb-1 text-lg">
+            <label htmlFor="genre" className="block pb-1 text-lg text-light-gray">
               Genre
             </label>
             <input
+              className="bg-night-sky text-light-gray border-gold focus:ring-gold"
               value={genre}
               onChange={handleChange}
               name="genre"
-              type="text"
               id="genre"
+              type="text"
             />
           </div>
           <div className="py-2">
-            <label htmlFor="metascore" className="block pb-1 text-lg">
+            <label htmlFor="metascore" className="block pb-1 text-lg text-light-gray">
               Metascore
             </label>
             <input
+              className="bg-night-sky text-light-gray border-gold focus:ring-gold"
               value={metascore}
               onChange={handleChange}
               name="metascore"
-              type="number"
               id="metascore"
+              type="number"
             />
           </div>
           <div className="py-2">
-            <label htmlFor="Description" className="block pb-1 text-lg">
+            <label htmlFor="description" className="block pb-1 text-lg text-light-gray">
               Description
             </label>
             <textarea
+              className="bg-night-sky text-light-gray border-gold focus:ring-gold"
               value={description}
               onChange={handleChange}
               name="description"
-              id="Description"
+              id="description"
             ></textarea>
           </div>
         </div>
-        <div className="px-5 py-4 border-t border-zinc-200 flex justify-end gap-2">
-          <Link to={`/movies`} className="myButton bg-zinc-500">
+        <div className="px-5 py-4 border-t border-gold flex justify-end gap-2">
+          <Link to={`/movies/`} className="myButton bg-red-600 hover:bg-red-500">
             Vazgeç
           </Link>
           <button
             type="submit"
-            className="myButton bg-green-700 hover:bg-green-600"
+            className="myButton bg-gold hover:bg-gold-dark text-dark-blue"
           >
-            Ekle
+            Yeni Filmi Kaydet
           </button>
         </div>
       </form>
